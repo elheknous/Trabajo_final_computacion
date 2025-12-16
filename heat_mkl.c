@@ -1,12 +1,3 @@
-	/*
-  Ecuaci�n del calor 2D con FFT usando Intel oneMKL (DFTI) + OpenMP
-
-  - FFT 2D con MKL DFTI (in-place)
-  - No recibe par�metros por consola
-  - Usa OMP_NUM_THREADS (omp_get_max_threads) y lo aplica a MKL
-  - Guarda output_heat.txt (x y u)
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -33,9 +24,7 @@ int main(void) {
     mkl_set_dynamic(0);
     mkl_set_num_threads(nthreads);
 
-    printf("============================================\n");
-    printf(" ECUACION DEL CALOR 2D - FFT con Intel oneMKL\n");
-    printf("============================================\n");
+    printf(" ECUACION DEL CALOR 2D - FFT con Intel oneMKL\n");    
     printf("Nx = %d, Ny = %d\n", NX, NY);
     printf("Lx = %g, Ly = %g\n", LX, LY);
     printf("alpha = %g, t_final = %g\n", ALPHA, T_FINAL);

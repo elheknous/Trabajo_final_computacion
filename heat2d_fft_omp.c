@@ -69,9 +69,7 @@ void fft2d(complex_t **u, int nx, int ny, int invert){
 int main(){
     int nthreads = omp_get_max_threads();
 
-    printf("============================================\n");
     printf(" ECUACION DEL CALOR 2D - FFT PROPIA\n");
-    printf("============================================\n");
     printf("Nx = %d, Ny = %d\n", NX, NY);
     printf("alpha = %g, t_final = %g\n", ALPHA, T_FINAL);
     printf("OpenMP threads (OMP_NUM_THREADS) = %d\n", nthreads);
