@@ -79,19 +79,40 @@ int main(){
     complex_t **u = malloc(NX*sizeof(complex_t*));
     for(int i=0;i<NX;i++) u[i]=malloc(NY*sizeof(complex_t));
 
-    /* Condición inicial */
     double sigma = 0.05;
+
+    for (int i = 0; i < NX; i++) {
+        for (int j = 0; j < NY; j++) {
+            double x = i * dx;
+            double y = j * dy;
+            double r2 = (x - LX/2.0)*(x - LX/2.0) + (y - LY/2.0)*(y - LY/2.0);
+            u[i][j].re = exp(-r2/(sigma*sigma));
+            u[i][j].im = 0.0;
+        }
+    }
+
+        /* Guardar condición inicial t = 0 */
+    FILE *f0 = fopen("inicio.txt", "w");
+    if (f0 == NULL) {
+        printf("Error al crear inicio.txt\n");
+        return 1;
+    }
+
+    fprintf(f0, "# Condicion inicial ecuacion del calor 2D (t = 0)\n");
+    fprintf(f0, "# Nx=%d Ny=%d\n", NX, NY);
+    fprintf(f0, "# Columnas: x y u(x,y,0)\n\n");
 
     for(int i=0;i<NX;i++){
         for(int j=0;j<NY;j++){
-            double x = i * dx;
-            double y = j * dy;
-            double r2 = (x - LX/2.0)*(x - LX/2.0)
-                    + (y - LY/2.0)*(y - LY/2.0);
-            u[i][j].re = exp(-r2/(sigma*sigma));
-            u[i][j].im = 0.0;
+            fprintf(f0, "%f %f %f\n", i*dx, j*dy, u[i][j].re);
+        }
+        fprintf(f0, "\n");
     }
-}
+
+    fclose(f0);
+
+    printf("Condicion inicial guardada en inicio.txt\n");
+
 
 
     double t0 = omp_get_wtime();
@@ -117,9 +138,9 @@ int main(){
 
     double t1 = omp_get_wtime();
 
-    printf("Tiempo total de ejecucion: %f segundos\n", t1-t0);
+    /*printf("Tiempo total de ejecucion: %f segundos\n", t1-t0);
 
-    /* Guardar resultados */
+    /* Guardar resultados 
     FILE *f = fopen("output_heat.txt","w");
     fprintf(f,"# Solucion ecuacion del calor 2D\n");
     fprintf(f,"# Nx=%d Ny=%d alpha=%g t=%g\n",NX,NY,ALPHA,T_FINAL);
@@ -136,7 +157,7 @@ int main(){
     printf("Resultados guardados en output_heat.txt\n");
 
     for(int i=0;i<NX;i++) free(u[i]);
-    free(u);
+    free(u);*/
 
     // ------------ GUARDAR EN ARCHIVO ------------------------
     FILE *file = fopen("Tiempos_heat.txt", "a");
